@@ -62,9 +62,10 @@
   institute: none,
   date:      none,
   version:   none,
+  logo:      none,     // 封面 logo 路径，如 "image/logo.png"
   // Appearance
   color:     "blue",   // blue | green | cyan | sakura | black | brown
-  mode:      none,     // none | geye | hazy | sepia
+  mode:      none,     // none | geye | hazy | sepia（暖米黄/牛皮纸色）
   device:    "pad",    // pad | pc | kindle | normal | screen
   // Language
   lang:      "cn",
@@ -121,32 +122,25 @@
   )
 
   // Page layout
+  // Note: set rules inside if/else branches don't persist in Typst,
+  // so we compute all values first, then call set page once at top level.
+  let bg-fill = if mode != none and mode in _bg-colors { _bg-colors.at(mode) } else { white }
   let pg = _device-page(device)
-  if pg != none {
-    set page(
-      width:   pg.width,
-      height:  pg.height,
-      margin:  pg.margin,
-      fill:    if mode != none and mode in _bg-colors { _bg-colors.at(mode) } else { white },
-      footer:  context {
-        set text(fill: luma(120), size: 9pt)
-        align(center, str(here().page()))
-      },
-      header: none,
-    )
-  } else {
-    // normal = A4
-    set page(
-      paper:  "a4",
-      margin: 1in,
-      fill:   if mode != none and mode in _bg-colors { _bg-colors.at(mode) } else { white },
-      footer: context {
-        set text(fill: luma(120), size: 9pt)
-        align(center, str(here().page()))
-      },
-      header: none,
-    )
-  }
+  let page-width  = if pg != none { pg.width  } else { 210mm }
+  let page-height = if pg != none { pg.height } else { 297mm }
+  let page-margin = if pg != none { pg.margin } else { 1in }
+
+  set page(
+    width:   page-width,
+    height:  page-height,
+    margin:  page-margin,
+    fill:    bg-fill,
+    footer:  context {
+      set text(fill: luma(120), size: 9pt)
+      align(center, str(here().page()))
+    },
+    header: none,
+  )
 
   set text(
     font: ("Libertinus Serif", "Songti SC"),
@@ -158,7 +152,7 @@
   set par(
     justify:           true,
     leading:           0.78em,
-    first-line-indent: (amount: 2em, all: true),
+    first-line-indent: 2em,
     spacing:           1.2em,
   )
 
@@ -259,8 +253,12 @@
   // ---- Title page ----
   if title != none {
     set par(first-line-indent: 0pt)
-    v(2em)
+    v(1fr)
     align(center, {
+      if logo != none {
+        image(logo, width: 18%)
+        v(1em)
+      }
       text(fill: ecolor, size: 20pt, weight: "bold", title)
       v(1.5em)
       if author != none {
@@ -281,9 +279,10 @@
         strings.date-label + date
       }
     })
-    v(2em)
+    v(1fr)
     // 标题页不显示页码
     counter(page).update(0)
+    pagebreak()
   }
 
   // ---- Body ----

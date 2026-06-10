@@ -11,17 +11,14 @@
   institute: "ElegantLaTeX Program",
   date:      "June, 2026",
   version:   "1.0",
+  logo:      "image/logo-blue.png",
   color:     "blue",   // blue | green | cyan | sakura | black | brown
-  mode:      "hazy",   // none | geye | hazy | sepia
+  mode:      "sepia",  // none | geye | hazy | sepia
   device:    "normal", // pad | pc | kindle | normal | screen
   lang:      "en",
 )
 
-// Cover logo (optional)
-#align(center, box(image("image/logo-blue.png", width: 18%)))
-
-= ElegantNote Instructions
-
+= ElegantNote User Guide
 This template has been rebuilt natively for Typst since 2026. The typographic style is inspired by #link("https://github.com/ElegantLaTeX/ElegantNote")[ElegantNote] (the original LaTeX version).
 
 The new template has the following features:

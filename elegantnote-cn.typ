@@ -11,14 +11,12 @@
   institute: "ElegantLaTeX Program",
   date:      "2026 年 6 月",
   version:   "1.0",
+  logo:      "image/logo-blue.png",
   color:     "blue",   // blue | green | cyan | sakura | black | brown
-  mode:      "hazy",   // none | geye | hazy | sepia
+  mode:      "sepia",  // none | geye | hazy | sepia
   device:    "normal", // pad | pc | kindle | normal | screen
   lang:      "cn",
 )
-
-// 封面 logo（可选）
-#align(center, box(image("image/logo-blue.png", width: 18%)))
 
 = ElegantNote 使用说明
 
